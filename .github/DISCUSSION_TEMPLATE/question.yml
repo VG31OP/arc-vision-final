@@ -1,0 +1,24 @@
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for questions you have about ARC VISION.
+
+        Before submitting your question, please [search the discussions][discussions], read the [ARC VISION documentation][docs], and read the [ARC VISION FAQ][faq] pinned at the Discussion page to see if your question has already been answered by the community.
+
+        **If you are looking for support, start a new discussion and use a support category.**
+
+        By posting here you agree to follow our [AI policy][ai-policy]. Posts that appear to be written by an AI on your behalf may be closed without a response.
+
+        [discussions]: #
+        [docs]: #
+        [faq]: #
+        [ai-policy]: AI_POLICY.md
+  - type: textarea
+    id: description
+    attributes:
+      label: "What is your question?"
+    validations:
+      required: true

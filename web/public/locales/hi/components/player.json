@@ -1,0 +1,8 @@
+{
+  "noRecordingsFoundForThisTime": "इस समय का कोई रिकॉर्डिंग नहीं मिला",
+  "noPreviewFound": "कोई प्रीव्यू नहीं मिला",
+  "noPreviewFoundFor": "{{cameraName}} के लिए कोई पूर्वावलोकन नहीं मिला",
+  "submitModelService": {
+    "title": "इस फ्रेम को ARC VISION मॉडल सेवा में सबमिट करें?"
+  }
+}

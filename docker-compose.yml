@@ -1,0 +1,106 @@
+version: "3.9"
+
+# ==============================================================================
+# ARC VISION — Intelligent Surveillance Platform
+# Docker Compose Deployment Configuration
+# ==============================================================================
+# "See More. Know Faster. Act Smarter."
+#
+# QUICK START:
+#   1. Review and adjust the volume paths, environment variables, and ports below.
+#   2. Place your 'config.yml' inside the './config' directory.
+#   3. Run: 'docker compose up -d'
+#   4. Access Web UI at: https://localhost:8971 (or http://localhost:5000)
+# ==============================================================================
+
+services:
+  arc-vision:
+    container_name: arc-vision
+    image: ghcr.io/arc-vision/arc-vision:stable
+    restart: unless-stopped
+    privileged: true
+
+    # Shared Memory Size:
+    # Set to at least 128MB for 2-4 cameras (1080p).
+    # For high-resolution (4K) or high camera density (6+ cameras), increase to 256mb or 512mb.
+    shm_size: "128mb"
+
+    # --------------------------------------------------------------------------
+    # Storage & Directory Mounts (Adjust paths as needed)
+    # --------------------------------------------------------------------------
+    volumes:
+      # Synchronize host timezone
+      - /etc/localtime:/etc/localtime:ro
+      
+      # Configuration directory (contains config.yml and database)
+      - ./config:/config
+      
+      # Storage directory for video evidence, clips, snapshots, and exports
+      - ./storage:/media/frigate
+      
+      # Optional: In-memory tmpfs cache to reduce SSD write wear (1GB allocated)
+      - type: tmpfs
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+
+    # --------------------------------------------------------------------------
+    # Network Port Mappings
+    # --------------------------------------------------------------------------
+    ports:
+      - "8971:8971"       # Primary Authenticated Web UI & REST/WS API (HTTPS/TLS)
+      - "5000:5000"       # Unauthenticated Web UI / Internal API (Optional)
+      - "8554:8554"       # RTSP Live Restream (go2rtc)
+      - "8555:8555/tcp"   # WebRTC Streaming (TCP)
+      - "8555:8555/udp"   # WebRTC Streaming (UDP)
+
+    # --------------------------------------------------------------------------
+    # Environment Variables
+    # --------------------------------------------------------------------------
+    environment:
+      # Default camera password for RTSP stream authentication
+      FRIGATE_RTSP_PASSWORD: "your_secure_camera_password"
+      
+      # Timezone configuration (e.g. "UTC", "America/New_York", "Asia/Kolkata")
+      TZ: "UTC"
+
+    # --------------------------------------------------------------------------
+    # Hardware Acceleration & Devices (Uncomment the option matching your system)
+    # --------------------------------------------------------------------------
+    
+    # --- Option A: Intel QuickSync / AMD VA-API (Integrated GPU) ---
+    # devices:
+    #   - /dev/dri/renderD128:/dev/dri/renderD128
+    #   - /dev/dri:/dev/dri
+
+    # --- Option B: Google Coral EdgeTPU (USB) ---
+    # devices:
+    #   - /dev/bus/usb:/dev/bus/usb
+
+    # --- Option C: Google Coral EdgeTPU (PCIe / M.2) ---
+    # devices:
+    #   - /dev/apex_0:/dev/apex_0
+
+    # --- Option D: Nvidia GPU (CUDA / TensorRT) ---
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  # ----------------------------------------------------------------------------
+  # Optional: Local MQTT Broker (Eclipse Mosquitto)
+  # Uncomment this block if you do not have an external MQTT broker.
+  # ----------------------------------------------------------------------------
+  # mqtt:
+  #   container_name: arc-vision-mqtt
+  #   image: eclipse-mosquitto:2.0
+  #   restart: unless-stopped
+  #   command: mosquitto -c /mosquitto-no-auth.conf
+  #   ports:
+  #     - "1883:1883"
+  #   volumes:
+  #     - ./mosquitto/data:/mosquitto/data
+  #     - ./mosquitto/log:/mosquitto/log

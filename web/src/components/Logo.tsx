@@ -1,0 +1,21 @@
+import { cn } from "@/lib/utils";
+
+type LogoProps = {
+  className?: string;
+};
+export default function Logo({ className }: LogoProps) {
+  return (
+    <svg
+      viewBox="0 0 512 512"
+      className={cn("fill-current", className)}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* ARC VISION outer surveillance perimeter arc */}
+      <path d="M256 32C132.3 32 32 132.3 32 256c0 48.6 15.5 93.6 41.8 130.4l34.8-34.8C90.2 322.8 80 290.6 80 256c0-97.2 78.8-176 176-176s176 78.8 176 176c0 34.6-10.2 66.8-28.6 95.6l34.8 34.8C464.5 349.6 480 304.6 480 256 480 132.3 379.7 32 256 32z" />
+      {/* ARC VISION secondary inner precision arc */}
+      <path d="M256 128c-70.7 0-128 57.3-128 128 0 25.8 7.6 49.8 20.8 70l34.4-34.4c-4.6-11.2-7.2-23.4-7.2-35.6 0-44.2 35.8-80 80-80s80 35.8 80 80c0 12.2-2.6 24.4-7.2 35.6l34.4 34.4c13.2-20.2 20.8-44.2 20.8-70 0-70.7-57.3-128-128-128z" />
+      {/* ARC VISION central aperture core */}
+      <circle cx="256" cy="256" r="48" />
+    </svg>
+  );
+}
