@@ -28,7 +28,7 @@ update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
 mkdir -p -m 600 /root/.gnupg
 
 # install coral runtime
-wget -q -O /tmp/libedgetpu1-max.deb "https://github.com/feranick/libedgetpu/releases/download/16.0TF2.17.1-1/libedgetpu1-max_16.0tf2.17.1-1.bookworm_${TARGETARCH}.deb"
+curl -fsSL --retry 5 --retry-delay 2 -o /tmp/libedgetpu1-max.deb "https://github.com/feranick/libedgetpu/releases/download/16.0TF2.17.1-1/libedgetpu1-max_16.0tf2.17.1-1.bookworm_${TARGETARCH}.deb"
 unset DEBIAN_FRONTEND
 yes | dpkg -i /tmp/libedgetpu1-max.deb && export DEBIAN_FRONTEND=noninteractive
 rm /tmp/libedgetpu1-max.deb
