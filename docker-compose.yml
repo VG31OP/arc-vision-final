@@ -1,22 +1,11 @@
-version: "3.9"
-
-# ==============================================================================
-# ARC VISION — Intelligent Surveillance Platform
-# Docker Compose Deployment Configuration
-# ==============================================================================
-# "See More. Know Faster. Act Smarter."
-#
-# QUICK START:
-#   1. Review and adjust the volume paths, environment variables, and ports below.
-#   2. Place your 'config.yml' inside the './config' directory.
-#   3. Run: 'docker compose up -d'
-#   4. Access Web UI at: https://localhost:8971 (or http://localhost:5000)
-# ==============================================================================
-
 services:
   arc-vision:
     container_name: arc-vision
     image: ghcr.io/arc-vision/arc-vision:stable
+    build:
+      context: .
+      dockerfile: docker/main/Dockerfile
+      target: frigate
     restart: unless-stopped
     privileged: true
 
