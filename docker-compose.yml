@@ -20,13 +20,13 @@ services:
     volumes:
       # Synchronize host timezone
       - /etc/localtime:/etc/localtime:ro
-      
+
       # Configuration directory (contains config.yml and database)
       - ./config:/config
-      
+
       # Storage directory for video evidence, clips, snapshots, and exports
       - ./storage:/media/frigate
-      
+
       # Optional: In-memory tmpfs cache to reduce SSD write wear (1GB allocated)
       - type: tmpfs
         target: /tmp/cache
@@ -37,11 +37,11 @@ services:
     # Network Port Mappings
     # --------------------------------------------------------------------------
     ports:
-      - "8971:8971"       # Primary Authenticated Web UI & REST/WS API (HTTPS/TLS)
-      - "5000:5000"       # Unauthenticated Web UI / Internal API (Optional)
-      - "8554:8554"       # RTSP Live Restream (go2rtc)
-      - "8555:8555/tcp"   # WebRTC Streaming (TCP)
-      - "8555:8555/udp"   # WebRTC Streaming (UDP)
+      - "8971:8971" # Primary Authenticated Web UI & REST/WS API (HTTPS/TLS)
+      - "5000:5000" # Unauthenticated Web UI / Internal API (Optional)
+      - "8554:8554" # RTSP Live Restream (go2rtc)
+      - "8555:8555/tcp" # WebRTC Streaming (TCP)
+      - "8555:8555/udp" # WebRTC Streaming (UDP)
 
     # --------------------------------------------------------------------------
     # Environment Variables
@@ -49,14 +49,13 @@ services:
     environment:
       # Default camera password for RTSP stream authentication
       FRIGATE_RTSP_PASSWORD: "your_secure_camera_password"
-      
+
       # Timezone configuration (e.g. "UTC", "America/New_York", "Asia/Kolkata")
       TZ: "UTC"
-
     # --------------------------------------------------------------------------
     # Hardware Acceleration & Devices (Uncomment the option matching your system)
     # --------------------------------------------------------------------------
-    
+
     # --- Option A: Intel QuickSync / AMD VA-API (Integrated GPU) ---
     # devices:
     #   - /dev/dri/renderD128:/dev/dri/renderD128
@@ -79,17 +78,17 @@ services:
     #           count: 1
     #           capabilities: [gpu]
 
-  # ----------------------------------------------------------------------------
-  # Optional: Local MQTT Broker (Eclipse Mosquitto)
-  # Uncomment this block if you do not have an external MQTT broker.
-  # ----------------------------------------------------------------------------
-  # mqtt:
-  #   container_name: arc-vision-mqtt
-  #   image: eclipse-mosquitto:2.0
-  #   restart: unless-stopped
-  #   command: mosquitto -c /mosquitto-no-auth.conf
-  #   ports:
-  #     - "1883:1883"
-  #   volumes:
-  #     - ./mosquitto/data:/mosquitto/data
-  #     - ./mosquitto/log:/mosquitto/log
+    # ----------------------------------------------------------------------------
+    # Optional: Local MQTT Broker (Eclipse Mosquitto)
+    # Uncomment this block if you do not have an external MQTT broker.
+    # ----------------------------------------------------------------------------
+    # mqtt:
+    #   container_name: arc-vision-mqtt
+    #   image: eclipse-mosquitto:2.0
+    #   restart: unless-stopped
+    #   command: mosquitto -c /mosquitto-no-auth.conf
+    #   ports:
+    #     - "1883:1883"
+    #   volumes:
+    #     - ./mosquitto/data:/mosquitto/data
+    #     - ./mosquitto/log:/mosquitto/log
