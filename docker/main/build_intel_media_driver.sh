@@ -13,11 +13,11 @@ MEDIA_DRIVER_VERSION="intel-media-25.2.6"
 GMMLIB_VERSION="intel-gmmlib-22.7.2"
 
 apt-get -qq update
-apt-get -qq install -y wget gnupg ca-certificates cmake g++ make pkg-config
+apt-get -qq install -y wget curl gnupg ca-certificates cmake g++ make pkg-config
 
 # Use Intel's jammy repo for newer libva-dev (2.22) which provides the
 # VVC/VVC-decode headers required by media-driver 25.x
-wget -qO - https://repositories.intel.com/gpu/intel-graphics.key | gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg
+curl -fsSL https://repositories.intel.com/gpu/intel-graphics.key | gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/gpu/ubuntu jammy client" > /etc/apt/sources.list.d/intel-gpu-jammy.list
 apt-get -qq update
 apt-get -qq install -y libva-dev
